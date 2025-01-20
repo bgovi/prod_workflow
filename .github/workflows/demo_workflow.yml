@@ -25,3 +25,4 @@ jobs:
         run: |
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Debug Mode: ${{ github.event.inputs.debug_mode }}"
+          echo "SUP"
