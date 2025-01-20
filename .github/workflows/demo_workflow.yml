@@ -30,3 +30,7 @@ jobs:
         run: |
           echo "The first secret is below"
           echo "${{ secrets.XKEY }}"
+      - name: Actions error
+        run: |
+          echo "::error::Filename doesn't match possible files"
+          exit 1
