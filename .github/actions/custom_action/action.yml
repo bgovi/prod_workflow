@@ -1,0 +1,16 @@
+# .github/actions/custom-action/action.yml
+name: 'Custom Node.js Action'
+description: 'A custom GitHub Action that runs a Node.js script'
+inputs:
+  message:
+    description: 'A message to be logged'
+    required: true
+    default: 'Hello, World!'
+
+runs:
+  using: 'node12'
+  main: 'index.js'
+
+branding:
+  color: 'blue'
+  icon: 'check-circle'
