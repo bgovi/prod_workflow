@@ -10,11 +10,14 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
       
-      # - name: Run custom Node.js action
-      #   uses: ./actions/custom_action/  # Path to your custom action
-      #   with:
-      #     message: 'This is a custom GitHub Action!'
-      
+      - name: List all files in the repository
+        run: ls -R /home/runner/work/prod_workflow/prod_workflow/
+
+      - name: Run custom Node.js action
+        uses: ./actions/custom_action/  # Path to your custom action
+        with:
+          message: 'This is a custom GitHub Action!'
+
       - name: Print the output
         run: |
           echo "Result from action: ${{ steps.run-action.outputs.result }}"
