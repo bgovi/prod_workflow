@@ -1,0 +1,20 @@
+name: 'Custom GitHub Action Workflow'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      
+      - name: Run custom Node.js action
+        uses: ./ .github/actions/custom-action  # Path to your custom action
+        with:
+          message: 'This is a custom GitHub Action!'
+      
+      - name: Print the output
+        run: |
+          echo "Result from action: ${{ steps.run-action.outputs.result }}"
