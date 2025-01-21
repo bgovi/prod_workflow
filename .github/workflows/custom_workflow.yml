@@ -16,6 +16,17 @@ jobs:
       - name: List all files in the repository
         run: ls -R /home/runner/work/prod_workflow/prod_workflow/.github
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Use the appropriate Node.js version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          cd .github/actions/custom_action
+          npm install @actions/core # Install dependencies for the custom action
+
       - name: Run custom Node.js action
         uses: ./.github/actions/custom_action/  # Path to your custom action
         with:
