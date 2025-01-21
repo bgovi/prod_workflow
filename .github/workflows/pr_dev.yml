@@ -1,0 +1,17 @@
+name: MergeTest
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello
+        run: |
+          echo "hi"
+      - name: Bye
+        run: |
+          echo "bye"
