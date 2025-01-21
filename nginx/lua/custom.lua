@@ -1,0 +1,1 @@
+ngx.say("This is a Lua script in Nginx!")
