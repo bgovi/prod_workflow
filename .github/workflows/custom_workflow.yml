@@ -10,11 +10,14 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
       
+      - name: copy actions folder
+        run:  cp -r .github/actions/* .
+
       - name: List all files in the repository
         run: ls -R /home/runner/work/prod_workflow/prod_workflow/.github
 
       - name: Run custom Node.js action
-        uses: ./ .github/actions/custom_action/  # Path to your custom action
+        uses: ./actions/custom_action/  # Path to your custom action
         with:
           message: 'This is a custom GitHub Action!'
 
