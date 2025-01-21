@@ -17,7 +17,7 @@ jobs:
         run: ls -R /home/runner/work/prod_workflow/prod_workflow/.github
 
       - name: Run custom Node.js action
-        uses: ./actions/custom_action/  # Path to your custom action
+        uses: ./.github/actions/custom_action/  # Path to your custom action
         with:
           message: 'This is a custom GitHub Action!'
 
