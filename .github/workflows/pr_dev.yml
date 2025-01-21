@@ -12,6 +12,8 @@ jobs:
       - name: Hello
         run: |
           echo "hi"
+          exit 1
+
       - name: Bye
         run: |
           echo "bye"
