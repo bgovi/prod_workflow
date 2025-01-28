@@ -15,22 +15,22 @@ jobs:
         run: |
           echo "bye"
 
-      - name: Print inputs
-        run: |
-          echo "Environment: ${{ github.event.inputs.environment }}"
-          echo "Debug Mode: ${{ github.event.inputs.debug_mode }}"
-          echo "SUP"
-      - name: Echo secrets
-        run: |
-          echo "The first secret is below"
-          echo "${{ secrets.XKEY }}"
-      - name: Create log file
-        run: |
-          echo "Build logs" > build.log
-          echo "Build completed successfully" >> build.log
+      # - name: Print inputs
+      #   run: |
+      #     echo "Environment: ${{ github.event.inputs.environment }}"
+      #     echo "Debug Mode: ${{ github.event.inputs.debug_mode }}"
+      #     echo "SUP"
+      # - name: Echo secrets
+      #   run: |
+      #     echo "The first secret is below"
+      #     echo "${{ secrets.XKEY }}"
+      # - name: Create log file
+      #   run: |
+      #     echo "Build logs" > build.log
+      #     echo "Build completed successfully" >> build.log
 
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs
-          path: build.log
+      # - name: Upload logs
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: build-logs
+      #     path: build.log
