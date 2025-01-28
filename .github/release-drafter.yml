@@ -1,5 +1,6 @@
-name-template: 'Release v$NEXT_PATCH_VERSION'
-tag-template: 'v$NEXT_PATCH_VERSION'
+# name, version and tag are passed by github actions using with statement
+# name-template: 'Release v$NEXT_PATCH_VERSION'
+# tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
   - title: 🚀 Features
     labels:
@@ -7,24 +8,16 @@ categories:
   - title: 🐛 Bug Fixes
     labels:
       - bug
+      - "bugfix"
+      - "fix"
   - title: 🐛 Documentation
     labels:
       - documentation
 change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'
+change-title-escapes: '\<*_&@#`'
+
+
+
 template: |
   ## What's Changed
   $CHANGES
-
-
-version-resolver:
-  major:
-    labels:
-      - "breaking-change"
-  minor:
-    labels:
-      - "feature"
-  patch:
-    labels:
-      - "bugfix"
-      - "chore"
-  default: patch
