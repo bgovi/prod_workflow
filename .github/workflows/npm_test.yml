@@ -22,7 +22,7 @@ jobs:
         ports:
           - 5432:5432
         volumes:
-          - "/home/bgovi/Projects/Workspace/prod_workflow/node_server/init.sql:/docker-entrypoint-initdb.d/init.sql"
+          - "./node_server/init.sql:/docker-entrypoint-initdb.d/init.sql"
 
 
     steps:
