@@ -23,5 +23,25 @@ app.post('/items', async (req, res) => {
   res.status(201).json(rows[0]);
 });
 
+
+// Example secured route
+app.get('/secure', (req, res) => {
+  const authHeader = req.headers['authorization'];
+
+  if (authHeader === 'Bearer valid-token') {
+    return res.json({ message: 'Access granted!' });
+  }
+
+  res.status(401).json({ message: 'Unauthorized' });
+});
+
+
+
+
+
+
+
+
+
 module.exports = app;
 
