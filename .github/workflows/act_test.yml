@@ -1,0 +1,24 @@
+name: Dev Branch Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize] # Trigger when PR is opened or updated
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Sup
+        run: |
+          echo "hello"
+
+      - name: Bye
+        run: |
+          echo "bye"
+
+      - name: PWD
+        run: |
+          echo $(pwd)
