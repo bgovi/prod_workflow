@@ -40,6 +40,12 @@ Webhook?
 
 
 # Milestone Link
+pass as footer string
+
+footer: |
+  ### Milestone
+  [View Milestone](https://github.com/${{ github.repository }}/milestone/${{ github.event.milestone.number }})
+
 
 # Tools
 ## Test GitHub Actions
