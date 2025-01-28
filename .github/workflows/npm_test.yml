@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        # working-directory: ./node_server
+        working-directory: ./node_server
 
       - name: Wait for PostgreSQL to be ready
         run: |
@@ -55,4 +55,4 @@ jobs:
         env:
           DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
         run: npm test
-        # working-directory: ./node_server
+        working-directory: ./node_server
