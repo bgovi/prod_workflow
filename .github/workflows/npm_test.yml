@@ -45,6 +45,12 @@ jobs:
             sleep 3
           done
 
+      - name: Load database
+        run: |
+          # Copy init.sql into the container and run psql to initialize the database
+          docker cp ./node_server/init.sql $(docker ps -q --filter "ancestor=postgres:14"):/init.sql
+          docker exec -u postgres $(docker ps -q --filter "ancestor=postgres:14") psql -U testuser -d testdb -f /init.sql
+
       # - name: Run database migrations
       #   run: npm run migrate
       - name: Run tests
