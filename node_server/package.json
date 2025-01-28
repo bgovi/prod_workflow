@@ -1,0 +1,11 @@
+{
+  "name": "node_server",
+  "version": "1.0.0",
+  "description": "for simple testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
