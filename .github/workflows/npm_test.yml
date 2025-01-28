@@ -21,8 +21,6 @@ jobs:
           --health-retries=3
         ports:
           - 5432:5432
-        volumes:
-          - "./node_server/init.sql:/docker-entrypoint-initdb.d/init.sql"
 
 
     steps:
