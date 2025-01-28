@@ -1,0 +1,55 @@
+name: Test Node.js with PostgreSQL
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd="pg_isready -U testuser -d testdb"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        ports:
+          - 5432:5432
+        volumes:
+          - ./node_server/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U testuser; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 3
+          done
+
+      # - name: Run database migrations
+      #   run: npm run migrate
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
+        run: npm test
