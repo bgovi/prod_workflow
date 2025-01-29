@@ -1,0 +1,42 @@
+FAIL ./index.test.js (5.502 s)
+  ✓ adds 1 + 2 to equal 3 (2 ms)
+  ✕ GET /items should retrieve seeded data (5001 ms)
+
+  ● GET /items should retrieve seeded data
+
+    SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+
+      14 |
+      15 | app.get('/items', async (req, res) => {
+    > 16 |   const { rows } = await pool.query('SELECT * FROM items');
+         |                    ^
+      17 |   res.json(rows);
+      18 | });
+      19 |
+
+      at node_modules/pg-pool/index.js:45:11
+      at index.js:16:20
+
+  ● GET /items should retrieve seeded data
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+       9 | });
+      10 |
+    > 11 | test('GET /items should retrieve seeded data', async () => {
+         | ^
+      12 |     const response = await request(app).get('/items');
+      13 |     expect(response.statusCode).toBe(200);
+      14 |     expect(response.body.length).toBeGreaterThan(0);
+
+      at Object.test (index.test.js:11:1)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   0 total
+Time:        5.541 s
+Ran all test suites.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

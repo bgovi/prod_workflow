@@ -4,7 +4,8 @@
   "description": "for simple testing",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test":  "jest --json > ./logs/test_logs.txt",
+    "testx": "jest > output.txt 2>&1"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,8 @@
     "jest": "^29.7.0",
     "pg": "^8.13.1",
     "supertest": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest-json-reporter": "^1.2.2"
   }
 }

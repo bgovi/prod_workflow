@@ -52,6 +52,11 @@ footer: |
 https://github.com/nektos/act
 act
 
+or fork code and run tests on cloned repo
+
+or multistage docker or docker compose test.
+exit on complete. how to track logs.
+
 ## Release Drafter
 
 ## how to autodeploy github pages

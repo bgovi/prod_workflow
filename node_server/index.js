@@ -6,6 +6,7 @@ app.use(express.json());
 
 // PostgreSQL connection
 //env DATABASE_URL=postgresql://testuser:testpassword@localhost:5432/testdb node index.js
+//env DATABASE_URL=postgresql://testuser:testpassword@localhost:5432/testdb npm test
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

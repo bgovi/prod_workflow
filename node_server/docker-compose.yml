@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: app_container
+    command: ["npm", "test"]  # Run Jest tests on container startup
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://testuser:testpassword@db:5432/testdb
+    volumes:
+      - ./logs:/app/logs  # Store logs on your local system
+
+  db:
+    image: postgres:latest
+    container_name: db_container
+    restart: always
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: testdb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 5s

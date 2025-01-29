@@ -22,7 +22,6 @@ jobs:
         ports:
           - 5432:5432
 
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,23 +35,33 @@ jobs:
         run: npm install
         working-directory: ./node_server
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h localhost -p 5432 -U testuser; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 3
-          done
+      # - name: Wait for PostgreSQL to be ready
+      #   run: |
+      #     until pg_isready -h localhost -p 5432 -U testuser; do
+      #       echo "Waiting for PostgreSQL to be ready..."
+      #       sleep 3
+      #     done
 
-      - name: Load database
-        run: |
-          # Copy init.sql into the container and run psql to initialize the database
-          docker cp ./node_server/init.sql $(docker ps -q --filter "ancestor=postgres:14"):/init.sql
-          docker exec -u postgres $(docker ps -q --filter "ancestor=postgres:14") psql -U testuser -d testdb -f /init.sql
+      - name: Sleep 20
+        run: sleep 20
+
+      # - name: Load database
+      #   run: |
+      #     # Copy init.sql into the container and run psql to initialize the database
+      #     docker cp ./node_server/init.sql $(docker ps -q --filter "ancestor=postgres:14"):/init.sql
+      #     docker exec -u postgres $(docker ps -q --filter "ancestor=postgres:14") psql -U testuser -d testdb -f /init.sql
+      #     DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+      - name: Load Database
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@127.0.0.1:5432/testdb
+        run: node loadInitSql.js
+        working-directory: ./node_server
+
 
       # - name: Run database migrations
       #   run: npm run migrate
       - name: Run tests
         env:
-          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+          DATABASE_URL: postgresql://testuser:testpassword@127.0.0.1:5432/testdb
         run: npm test
         working-directory: ./node_server
