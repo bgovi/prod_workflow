@@ -2,17 +2,14 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    build: ./node_server
     container_name: app_container
-    command: ["npm", "test"]  # Run Jest tests on container startup
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
       DATABASE_URL: postgresql://testuser:testpassword@db:5432/testdb
-    volumes:
-      - ./logs:/app/logs  # Store logs on your local system
 
   db:
     image: postgres:latest
@@ -23,10 +20,17 @@ services:
       POSTGRES_PASSWORD: testpassword
       POSTGRES_DB: testdb
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./node_server/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD", "pg_isready -U testuser", "-d", "testdb"]
       interval: 10s
       retries: 5
       start_period: 5s
       timeout: 5s
+
+  nginx:
+    build: ./nginx/
+    ports:
+      - 8080:80
+    depends_on:
+      - app

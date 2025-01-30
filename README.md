@@ -57,6 +57,10 @@ or fork code and run tests on cloned repo
 or multistage docker or docker compose test.
 exit on complete. how to track logs.
 
+# For NGINX use envsubst to manage different enviornments
+export APP_URL=production.example.com
+envsubst < nginx.conf.template > nginx.conf
+
 ## Release Drafter
 
 ## how to autodeploy github pages
