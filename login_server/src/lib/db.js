@@ -1,12 +1,27 @@
 // db.js
 const { Sequelize, DataTypes } = require('sequelize');
 
+
+//process.env.jwtSecret
+
+/*
+
+process.env.DB_HOST=localhost
+process.env.DB_PORT=5432
+process.env.DB_NAME=mydb
+process.env.DB_USER=myuser
+process.env.DB_PASSWORD=mypassword
+
+
+*/
+
+
 const sequelize = new Sequelize({
   dialect: 'postgres',
-  host: 'localhost', // change this to your DB host
-  username: 'username', // your PostgreSQL username
-  password: 'password', // your PostgreSQL password
-  database: 'dbname', // your database name
+  host:     process.env.DB_HOST, //'localhost', // change this to your DB host
+  username: process.env.DB_USER, //'username', // your PostgreSQL username
+  password: process.env.DB_PASSWORD, //'password', // your PostgreSQL password
+  database: process.env.DB_PASSWORD, //'dbname', // your database name
 });
 
 const User = sequelize.define('User', {

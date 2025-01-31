@@ -57,19 +57,19 @@ router.post('/register', async (req, res) => {
 
 
 // Google OAuth route
-router.get('/auth/google',
-  passport.authenticate('oauth2')
-);
+// router.get('/auth/google',
+//   passport.authenticate('oauth2')
+// );
 
-// Google OAuth callback
-router.get('/auth/google/callback',
-  passport.authenticate('oauth2', { session: false }),
-  (req, res) => {
-    const token = generateJWT(req.user);
-    res.cookie('token', token, { httpOnly: true, secure: false }); // Set secure to true in production with HTTPS
-    res.redirect('/'); // Redirect to homepage or dashboard
-  }
-);
+// // Google OAuth callback
+// router.get('/auth/google/callback',
+//   passport.authenticate('oauth2', { session: false }),
+//   (req, res) => {
+//     const token = generateJWT(req.user);
+//     res.cookie('token', token, { httpOnly: true, secure: false }); // Set secure to true in production with HTTPS
+//     res.redirect('/'); // Redirect to homepage or dashboard
+//   }
+// );
 
 // Logout route
 router.post('/logout', (req, res) => {

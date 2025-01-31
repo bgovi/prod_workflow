@@ -1,0 +1,1 @@
+# Need to setup nginx with template system to handle different configurations
