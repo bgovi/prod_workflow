@@ -23,24 +23,7 @@ passport.use(new LocalStrategy(
 ));
 
 
-
-router.post('/register', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, password: hashedPassword });
-
-    res.status(201).json({ message: 'User registered' });
-  } catch (err) {
-    res.status(500).json({ error: 'Error creating user' });
-  }
-});
-
-module.exports = router;
-
-
-
+// for protected route
 // passport.use(
 //     new JwtStrategy.Strategy(
 //       {
@@ -67,31 +50,36 @@ module.exports = router;
 
 
 
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+// passport.use('google-custom', new GoogleStrategy(
+//     {
+//       clientID: 'YOUR_GOOGLE_CLIENT_ID',
+//       clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
+//       callbackURL: 'http://localhost:3000/auth/google/callback',
+//     },
+//     async (accessToken, refreshToken, profile, done) => {
+//       try {
+//         let user = await User.findOne({ where: { oauthId: profile.id } });
+  
+//         if (!user) {
+//           user = await User.create({
+//             oauthId: profile.id,
+//             username: profile.displayName,
+//           });
+//         }
+  
+//         return done(null, user);
+//       } catch (err) {
+//         return done(err);
+//       }
+//     }
+//   ));
 
+//   app.get('/auth/google', passport.authenticate('google-custom', { scope: ['profile', 'email'] }));
 
-// OAuth2 Strategy (Example for Google OAuth)
-passport.use(new OAuth2Strategy(
-  {
-    authorizationURL: 'https://accounts.google.com/o/oauth2/auth',
-    tokenURL: 'https://oauth2.googleapis.com/token',
-    clientID: 'YOUR_GOOGLE_CLIENT_ID',
-    clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
-    callbackURL: 'http://localhost:3000/auth/google/callback',
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      let user = await User.findOne({ where: { oauthId: profile.id } });
-
-      if (!user) {
-        user = await User.create({
-          oauthId: profile.id,
-          username: profile.displayName, // Can be customized based on OAuth provider
-        });
-      }
-
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }
-));
+// app.get('/auth/google/callback',
+//   passport.authenticate('google-custom', { failureRedirect: '/login' }),
+//   (req, res) => {
+//     res.redirect('/dashboard');
+//   }
+// );
