@@ -1,21 +1,6 @@
 // db.js
 const { Sequelize, DataTypes } = require('sequelize');
 
-
-//process.env.jwtSecret
-
-/*
-
-process.env.DB_HOST=localhost
-process.env.DB_PORT=5432
-process.env.DB_NAME=mydb
-process.env.DB_USER=myuser
-process.env.DB_PASSWORD=mypassword
-
-
-*/
-
-
 const sequelize = new Sequelize({
   dialect: 'postgres',
   host:     process.env.DB_HOST, //'localhost', // change this to your DB host
@@ -24,7 +9,14 @@ const sequelize = new Sequelize({
   database: process.env.DB_PASSWORD, //'dbname', // your database name
 });
 
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
+
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+
         first_name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -49,6 +41,20 @@ const User = sequelize.define('User', {
     }//,
 );
 
-sequelize.sync();
+const Items = sequelize.define('items', {
 
-module.exports = { sequelize, User };
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}
+);
+
+sequelize.sync();
+module.exports = { sequelize, User, Items };

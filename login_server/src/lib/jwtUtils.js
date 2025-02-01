@@ -1,8 +1,10 @@
 // jwtUtils.js
 const jwt = require('jsonwebtoken');
-
 const YOUR_SECRET_KEY = process.env.JWT_SECRET || 'jwtsecret';
 
+/*
+Creates jwttoken
+*/
 const generateJWT = async (payload, expireTime = '1h') => {
   return new Promise((resolve, reject) => {
     jwt.sign(payload, YOUR_SECRET_KEY, { expiresIn: expireTime }, (err, token) => {
@@ -21,4 +23,68 @@ const verifyJWT = async(token) => {
   });
 }
 
-module.exports = { generateJWT, verifyJWT };
+/*
+Login and API Guard
+*/
+const isLoggedIn = async(req, res, next) => {
+  const token = req.cookies.token; // Assuming the token is stored in the 'token' cookie
+  if (!token) {
+    return res.status(401).json({ message: 'Not logged in' });
+  } else {
+    try {
+      let decoded = await verifyJWT(token)
+      let user = {"id": decoded.id, "username": decoded.username }
+      req["user"] = user
+      next()
+
+    } catch (error) {
+      //probably expired
+      res.status(401).send.json({ message: 'Not logged in' })
+    }
+  }
+}
+
+// Middleware to check for Authorization header with Bearer token
+const checkApiToken = async (req, res, next) => {
+  // Extract the Authorization header
+  const authHeader = req.headers['authorization'];
+
+  // Check if the Authorization header exists and starts with "Bearer"
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
+  // Extract the token (the part after "Bearer ")
+  const token = authHeader.slice(7, authHeader.length); // Remove "Bearer " prefix
+  // Attach the token to the request object for later use in route handler
+  req.token = token;
+  try {
+    // Proceed to the next middleware or route handler
+    let decoded = await verifyJWT(token)
+    let user = {"id": decoded.id, "username": decoded.username }
+    req["user"] = user
+    next();
+
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token or expired' })
+  }
+}
+
+const generateApiToken = async (req, res, next) => {
+  const token = req.cookies.token; // Assuming the token is stored in the 'token' cookie
+  if (!token) {
+    res.status(401).json({ message: error.message })
+  } else {
+    try {
+      let decoded   = await verifyJWT(token)
+      let payload   = {"id": decoded.id, "username": decoded.username }
+      let api_token = await generateJWT(payload)
+      res.setHeader('authorization', `Bearer ${api_token}`)
+      res.status(200).json({message: "API Token Sent"})
+    } catch (error) {
+      //probably expired
+      res.status(401).json({ message: error.message })
+    }
+  }
+}
+
+module.exports = { generateJWT, isLoggedIn, checkApiToken, generateApiToken };

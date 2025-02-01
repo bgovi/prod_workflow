@@ -1,12 +1,11 @@
 const express = require('express')
-const { generateJWT, verifyJWT } = require('../lib/jwtUtils')
+const { generateJWT, isLoggedIn, checkApiToken, generateApiToken } = require('../lib/jwtUtils')
 const router = express.Router();
 
 router.get('/logout', (req,res) => {
   res.clearCookie('token')
   res.send('logout')
 })
-
 
 // Local login route
 router.post('/login', passport.authenticate('local', { session: false, failureMessage: true }), 
@@ -38,21 +37,9 @@ router.post('/register', async (req, res) => {
     }
 });
 
+//should use separate secrete key for jwt token creation
+router.post('/api_token_generator', generateApiToken);
 
-// Google OAuth route
-// router.get('/auth/google',
-//   passport.authenticate('oauth2')
-// );
-
-// // Google OAuth callback
-// router.get('/auth/google/callback',
-//   passport.authenticate('oauth2', { session: false }),
-//   (req, res) => {
-//     const token = generateJWT(req.user);
-//     res.cookie('token', token, { httpOnly: true, secure: false }); // Set secure to true in production with HTTPS
-//     res.redirect('/'); // Redirect to homepage or dashboard
-//   }
-// );
 
 // Logout route
 router.post('/logout', (req, res) => {

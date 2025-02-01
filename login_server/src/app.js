@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 // const loginRoute   = require('./login_routes/index.js')
 const Routes   = require('./routes/index.js')
 
+
+// const { generateJWT, isLoggedIn, checkApiToken, generateApiToken } = require('../lib/jwtUtils')
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
