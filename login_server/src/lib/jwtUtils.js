@@ -1,20 +1,7 @@
 // jwtUtils.js
 const jwt = require('jsonwebtoken');
 
-const YOUR_SECRET_KEY = process.env.jwtSecret || 'defaultValue';
-
-console.lgg('secret jwt')
-console.log(YOUR_SECRET_KEY)
-
-
-// const generateJWT = (user) => {
-//   const payload = { id: user.id, username: user.username };
-//   return jwt.sign(payload, 'YOUR_SECRET_KEY', { expiresIn: '1h' });
-// };
-
-// const verifyJWT = (token) => {
-//   return jwt.verify(token, 'YOUR_SECRET_KEY');
-// };
+const YOUR_SECRET_KEY = process.env.JWT_SECRET || 'jwtsecret';
 
 const generateJWT = async (payload, expireTime = '1h') => {
   return new Promise((resolve, reject) => {
@@ -25,7 +12,7 @@ const generateJWT = async (payload, expireTime = '1h') => {
   });
 };
 
-function verifyJWT(token) {
+const verifyJWT = async(token) => {
   return new Promise((resolve, reject) => {
       jwt.verify(token, YOUR_SECRET_KEY, (err, decoded) => {
           if (err) reject(err);
@@ -33,7 +20,5 @@ function verifyJWT(token) {
       });
   });
 }
-
-
 
 module.exports = { generateJWT, verifyJWT };
