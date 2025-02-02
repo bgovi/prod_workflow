@@ -1,5 +1,7 @@
 // app.js
 const express = require('express');
+const { User, Items } = require('@src/lib/db');
+
 /*
 route imports
 */

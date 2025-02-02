@@ -1,6 +1,7 @@
 const express = require('express')
 const { generateJWT, generateApiToken } = require('@src/lib/jwtUtils') // require('../lib/jwtUtils')
 const router = express.Router();
+const passport = require('@src/login_routes/passport.js')
 
 router.get('/logout', (req,res) => {
   res.clearCookie('token')
@@ -8,12 +9,11 @@ router.get('/logout', (req,res) => {
 })
 
 // Local login route
-router.post('/login', passport.authenticate('local', { session: false, failureMessage: true }), 
-    (req, res) => {
-
+router.post('/login', passport.authenticate('local', { session: false }), 
+    async (req, res) => {
       let userx = {"id": req.user.id, "username": req.user.username}
 
-      const token = generateJWT(userx);
+      const token = await generateJWT(userx);
 
       res.cookie('token', token, {
         httpOnly: true, // Helps to prevent XSS attacks
