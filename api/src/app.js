@@ -31,6 +31,6 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use('/', loginRoute)
 // app.use('/logged_in', isLoggedIn, loginTokenRoutes)
-// app.use('/api_token', checkApiToken, apiTokenRoutes )
+app.use('/api_token', checkApiToken, apiTokenRoutes )
 
 module.exports = app

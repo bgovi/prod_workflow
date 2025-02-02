@@ -15,6 +15,9 @@ router.post('/login', passport.authenticate('local', { session: false }),
 
       const token = await generateJWT(userx);
 
+      console.log("LOGIN TOKEN")
+      console.log(token)
+
       res.cookie('token', token, {
         httpOnly: true, // Helps to prevent XSS attacks
         secure: false, //process.env.NODE_ENV === 'production', // Cookie will be sent over HTTPS only
