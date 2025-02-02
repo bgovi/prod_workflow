@@ -3,11 +3,12 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize({
   dialect: 'postgres',
-  host:     process.env.DB_HOST, //'localhost', // change this to your DB host
-  username: process.env.DB_USER, //'username', // your PostgreSQL username
-  password: process.env.DB_PASSWORD, //'password', // your PostgreSQL password
-  database: process.env.DB_PASSWORD, //'dbname', // your database name
+  host:     process.env.DB_HOST     || 'localhost', //'localhost', // change this to your DB host
+  username: process.env.DB_USER     || 'testuser', //'username', // your PostgreSQL username
+  password: process.env.DB_PASSWORD || 'testpassword', //'password', // your PostgreSQL password
+  database: process.env.DB_NAME     || 'testdb', //'dbname', // your database name
 });
+
 
 const User = sequelize.define('user', {
 
@@ -38,23 +39,28 @@ const User = sequelize.define('user', {
             type: DataTypes.STRING,
             unique: true,
         },
-    }//,
+    },
+    {
+        timestamps: false
+    }
 );
 
 const Items = sequelize.define('items', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
 
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     },
-
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
+    {
+        timestamps: false
     }
-}
 );
-
-sequelize.sync();
+// not necessary database created without
+// sequelize.sync();
 module.exports = { sequelize, User, Items };

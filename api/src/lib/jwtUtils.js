@@ -61,7 +61,7 @@ const checkApiToken = async (req, res, next) => {
     // Proceed to the next middleware or route handler
     let decoded = await verifyJWT(token)
     let user = {"id": decoded.id, "username": decoded.username }
-    req["user"] = user
+    req["api_token"] = user
     next();
 
   } catch (error) {

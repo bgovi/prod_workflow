@@ -1,5 +1,5 @@
 const express = require('express')
-const { generateJWT, isLoggedIn, checkApiToken, generateApiToken } = require('../lib/jwtUtils')
+const { generateJWT, generateApiToken } = require('@src/lib/jwtUtils') // require('../lib/jwtUtils')
 const router = express.Router();
 
 router.get('/logout', (req,res) => {
