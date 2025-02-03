@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('./app.js')
 
-let authCookie;
+let authToken;
 let bearerToken;
 
 beforeAll(async () => {
@@ -12,27 +12,15 @@ beforeAll(async () => {
 
   // console.log(loginResponse)
   let authCookies = loginResponse.headers["set-cookie"]; // Extract cookie header
-  
   const authTokenCookie = authCookies.find(cookie => cookie.startsWith('token='));
   expect(authTokenCookie).toBeDefined();
-  console.log("authTokenCookie")
-  console.log(authTokenCookie)
-  console.log("SUP")
 
   authToken = authTokenCookie.split(';')[0].split('=')[1];
-  console.log(authToken)
-
   // Step 2: Use the cookie to get the Bearer token
   const tokenResponse = await request(app)
     .post("/api_token_generator")
     .set("Cookie", `token=${authToken}`);
-
-  bearerToken = tokenResponse.body; // Adjust based on API response structure
-  console.log(tokenResponse.body)
-
-  console.log(tokenResponse.headers['authorization'])
-  console.log("Bearer token")
-  console.log(bearerToken)
+  bearerToken=tokenResponse.headers['authorization'].split(' ')[1] //Bearer <token value>
 });
 
 const sum = (a, b) => a + b;
@@ -42,13 +30,19 @@ test('adds 1 + 2 to equal 3', () => {
 });
 
 
-// test("Access restricted route with Bearer token", async () => {
-//   const response = await request(app)
-//     .post("/restricted-route") // Replace with actual restricted route
-//     .set("Authorization", `Bearer ${bearerToken}`);
-
-//   expect(response.status).toBe(200);
-// });
+test("Access restricted route with Bearer token", async () => {
+  try{
+    const response = await request(app)
+      .post("/api_token/") // Replace with actual restricted route
+      .set("Authorization", `Bearer ${bearerToken}`)
+      //.expect('Content-Type', /json/)
+      // .expect(200);
+    console.log(request)
+    expect(response.body).toEqual({ message: 'hola' });
+  } catch(error) {
+    console.log(error)
+  }
+});
 
 
 

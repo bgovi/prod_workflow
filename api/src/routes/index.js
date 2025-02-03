@@ -26,14 +26,9 @@ const apiTokenRoutes = express.Router();
 
 
 apiTokenRoutes.get('/', (req, res) => {
+  console.log("SUP SUP")
   res.status(200).json({ message: 'hola' });
 });
-
-
-
-apiTokenRoutes.get('/cookies', (req, res) => {
-  res.status(200).json({api_decrypted_token: req.cookies.token, auth_bearer_header: req.headers['authorization']})
-})
 
 apiTokenRoutes.get('/items', async (req, res) => {
   const { rows } = await pool.query('SELECT * FROM items');

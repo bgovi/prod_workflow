@@ -6,9 +6,6 @@ const YOUR_SECRET_KEY = process.env.JWT_SECRET || 'jwtsecret';
 Creates jwttoken
 */
 
-console.log("SECRET KEY")
-console.log(YOUR_SECRET_KEY)
-
 
 const generateJWT = async (payload, expireTime = '1h') => {
   return new Promise((resolve, reject) => {
@@ -84,35 +81,20 @@ const checkApiToken = async (req, res, next) => {
 }
 
 const generateApiToken = async (req, res, next) => {
-  // console.log(req.headers)
-  // console.log(req.cookies)
   const token = req.cookies.token; // Assuming the token is stored in the 'token' cookie
-  // console.log(token)
-  // if (!token) {
-  //   res.status(401).json({ message: error.message })
-  // } else {
+  if (!token) {
+    res.status(401).json({ message: error.message })
+  } else {
     try {
-      console.log("Before verifyJWT")
-      //let token2 =  jwt.sign({"x": 1}, YOUR_SECRET_KEY, { expiresIn: '1h' })
-      // console.log("WTF")
-      // let token2 = 'eyJhb1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzM4NTM2MTI1LCJleHAiOjE3Mzg1Mzk3MjV9.0PcrT98ljBWQskICiruumYmwinTdR1L8hhG51Cy2tYQ';
-      let token2 =  token //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4IjoxLCJpYXQiOjE3Mzg1Mzg3MzQsImV4cCI6MTczODU0MjMzNH0.ZK-1utW3nfFqu9Wafgp75K5Q8d2-0Q9vf0R46PRf_Nk'
-      console.log(token)
-      let decoded   = await verifyJWT(token2) //  jwt.verify(token2, YOUR_SECRET_KEY)  // await verifyJWT(token)
-      console.log("AFTER verifyJWT")
-      console.log(token2)
-      console.log(decoded)
+      let decoded   = await verifyJWT(token) //  jwt.verify(token2, YOUR_SECRET_KEY)  // await verifyJWT(token)
       let payload   = {"id": decoded.id, "username": decoded.username }
       let api_token = await generateJWT(payload)
       res.setHeader('authorization', `Bearer ${api_token}`)
       res.status(200).json({message: "API Token Sent"})
     } catch (error) {
-      //probably expired
-      console.log("WHY")
-      console.log(error)
       res.status(401).json({ message: error.message })
     }
-  // }
+  }
 }
 
 module.exports = { generateJWT, isLoggedIn, checkApiToken, generateApiToken };
