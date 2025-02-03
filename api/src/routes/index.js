@@ -1,6 +1,6 @@
 // app.js
 const express = require('express');
-const { User, Items } = require('@src/lib/db');
+const { Items } = require('@src/lib/db');
 
 /*
 route imports
@@ -26,22 +26,12 @@ const apiTokenRoutes = express.Router();
 
 
 apiTokenRoutes.get('/', (req, res) => {
-  console.log("SUP SUP")
   res.status(200).json({ message: 'hola' });
 });
 
 apiTokenRoutes.get('/items', async (req, res) => {
-  const { rows } = await pool.query('SELECT * FROM items');
-  res.status(200).json(rows);
-});
-
-apiTokenRoutes.post('/items', async (req, res) => {
-  const { name } = req.body;
-  const { rows } = await pool.query(
-    'INSERT INTO items (name) VALUES ($1) RETURNING *',
-    [name]
-  );
-  res.status(201).json(rows[0]);
+  const items = await Items.findAll();
+  res.status(200).json(items);
 });
 
 module.exports = {loginTokenRoutes, apiTokenRoutes}

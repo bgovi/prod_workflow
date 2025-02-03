@@ -34,8 +34,7 @@ const isLoggedIn = async(req, res, next) => {
     return res.status(401).json({ message: 'Not logged in' });
   } else {
     try {
-      let token2 =  jwt.sign({"x": 1}, YOUR_SECRET_KEY, { expiresIn: expireTime })  // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4IjoxLCJpYXQiOjE3Mzg1Mzc3OTN9.Aag4z99gyvQVGC_56tzcpUerWKN2WHy2O8GzGE3jRBI'
-      let decoded = jwt.verify(token2, YOUR_SECRET_KEY)  //await verifyJWT(token, YOUR_SECRET_KEY)
+      let decoded = await verifyJWT(token)  //await verifyJWT(token, YOUR_SECRET_KEY)
       let user = {"id": decoded.id, "username": decoded.username }
       req["user"] = user
       next()
@@ -71,6 +70,7 @@ const checkApiToken = async (req, res, next) => {
   try {
     // Proceed to the next middleware or route handler
     let decoded = await verifyJWT(token)
+
     let user = {"id": decoded.id, "username": decoded.username }
     req["api_token"] = user
     next();
