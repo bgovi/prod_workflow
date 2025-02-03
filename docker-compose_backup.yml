@@ -35,9 +35,3 @@ services:
       - 8080:80
     depends_on:
       - app
-
-# DB_HOST=localhost
-# DB_PORT=5432
-# DB_NAME=mydb
-# DB_USER=myuser
-# DB_PASSWORD=mypassword
