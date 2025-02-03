@@ -3,6 +3,7 @@ const { generateJWT, generateApiToken } = require('@src/lib/jwtUtils') // requir
 const router = express.Router();
 const passport = require('@src/login_routes/passport.js')
 
+
 router.get('/logout', (req,res) => {
   res.clearCookie('token')
   res.send('logout')
@@ -46,5 +47,10 @@ router.post('/logout', (req, res) => {
   res.clearCookie('token');
   res.status(200).json({ message: 'Logged out successfully' });
 });
+
+router.get('/hello_world', (req, res) => {
+  res.status(200).json({message: "Hello World"})
+})
+
 
 module.exports = router
