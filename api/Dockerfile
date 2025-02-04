@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Define the startup command for the container
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]

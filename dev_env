@@ -1,2 +1,7 @@
-sup
+# Database parameters
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mydb
+DB_USER=myuser
+DB_PASSWORD=mypassword
 

@@ -2,9 +2,6 @@
 FROM postgres:14
 
 # Set environment variables for the PostgreSQL container
-ENV POSTGRES_USER=testuser
-ENV POSTGRES_PASSWORD=testpassword
-ENV POSTGRES_DB=testdb
 
 # Copy your custom initialization SQL script to the appropriate folder
 COPY ./init.sql /docker-entrypoint-initdb.d/

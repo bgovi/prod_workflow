@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./api
+    container_name: app_container
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+
+  db:
+    image: postgres:latest
+    container_name: db_container
+    restart: always
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: testdb
+    # volumes:
+    #   - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "pg_isready -U testuser", "-d", "testdb"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 5s
+
+  nginx:
+    build: ./nginx_load_balancer/
+    ports:
+      - "${EXPOSE_PORT}:80"
+    depends_on:
+      - app
+
+# - DATABASE_URL=postgres://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=mydb
+# DB_USER=myuser
+# DB_PASSWORD=mypassword
